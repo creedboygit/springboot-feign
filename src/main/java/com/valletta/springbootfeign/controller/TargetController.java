@@ -1,7 +1,10 @@
 package com.valletta.springbootfeign.controller;
 
+import com.valletta.springbootfeign.common.dto.BaseRequestInfo;
 import com.valletta.springbootfeign.common.dto.BaseResponseInfo;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +23,16 @@ public class TargetController {
 //            .name(name)
             .name(name + " from target server")
             .age(age)
+            .build();
+    }
+
+    @PostMapping("/post")
+    public BaseResponseInfo demoPost(@RequestHeader("CustomHeaderName") String header,
+                                     @RequestBody BaseRequestInfo body) {
+        return BaseResponseInfo.builder()
+            .header(header)
+            .name(body.getName())
+            .age(body.getAge())
             .build();
     }
 }
