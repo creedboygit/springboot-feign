@@ -13,6 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class FeignCustomLogger extends Logger {
 
+    private static final int DEFAULT_SLOW_API_TIME = 3_000;
+    private static final String SLOW_API_NOTICE = "Slow API";
+
     @Override
     protected void log(String configkey, String format, Object... args) {
         // log를 어떤 형식으로 남길지 결정
@@ -63,6 +66,10 @@ public class FeignCustomLogger extends Logger {
                             bodyLength = bodyData.length;
                             if (logLevel.ordinal() >= Logger.Level.FULL.ordinal() && bodyLength > 0) {
                                 this.log(configKey, "%s", Util.decodeOrDefault(bodyData, Util.UTF_8, "Binary data"));
+                            }
+
+                            if (elapsedTime > DEFAULT_SLOW_API_TIME) {
+                                log(configKey, "[%s] elapsedTime: %s", SLOW_API_NOTICE, elapsedTime);
                             }
 
                             this.log(configKey, "<--- END HTTP (%s-byte body)", bodyLength);
