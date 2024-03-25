@@ -12,6 +12,11 @@ feign:
         readTimeout: 10000
         loggerLevel: HEADERS # 여기서 설정한 값은 FeignCustomLogger -> Logger.Level logLevel 변수에 할당됨
 
+logging:
+  level:
+    root: info
+    com.valletta.springbootfeign.feign.client: debug
+
 #  [loggerLevel 옵션]
 #      ref : feign.Logger.Level
 #  ```
