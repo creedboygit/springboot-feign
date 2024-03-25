@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class DemoService {
 
-    private final DemoFeignClient demoFeignClient;
+    private final DemoFeignClient client;
 
     public String get() {
-        ResponseEntity<BaseResponseInfo> response = demoFeignClient.callGet("CustomHeader", "CustomName", 1L);
+        ResponseEntity<BaseResponseInfo> response = client.callGet("CustomHeader", "CustomName", 1L);
 
         log.info("# Name: {}", response.getBody().getName());
         log.info("# Age: {}", response.getBody().getAge());
@@ -30,12 +30,18 @@ public class DemoService {
             .name("customPostName")
             .age(3L)
             .build();
-        ResponseEntity<BaseResponseInfo> response = demoFeignClient.callPost("CustomHeader", baseRequestInfo);
+        ResponseEntity<BaseResponseInfo> response = client.callPost("CustomHeader", baseRequestInfo);
 
         log.info("# Name: {}", response.getBody().getName());
         log.info("# Age: {}", response.getBody().getAge());
         log.info("# Header: {}", response.getBody().getHeader());
 
         return "post";
+    }
+
+    public String errorDecoder() {
+        client.callErrorDecoder();
+
+        return "errorDecoder";
     }
 }

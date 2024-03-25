@@ -2,6 +2,8 @@ package com.valletta.springbootfeign.controller;
 
 import com.valletta.springbootfeign.common.dto.BaseRequestInfo;
 import com.valletta.springbootfeign.common.dto.BaseResponseInfo;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,5 +36,11 @@ public class TargetController {
             .name(body.getName())
             .age(body.getAge())
             .build();
+    }
+
+    @GetMapping("/error")
+    public ResponseEntity<BaseResponseInfo> demoErrorDecoder() {
+//        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }
